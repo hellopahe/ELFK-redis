@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7.24 # MySQL镜像
+    container_name: mysql # MySQL容器名称
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456 # MySQL ROOT账号密码
+    ports:
+      - 3306:3306 # 端口映射
+    volumes:
+      - /var/mysql/data:/var/lib/mysql #挂载 MySQL数据
+  redis:
+    image: redis:4.0.14 # Redis镜像
+    container_name: redis # Redis容器名称
+    command: redis-server /usr/local/etc/redis/redis.conf --appendonly yes # 表>示通过挂载配置文件追加配置
+    volumes:
+      - /var/redis/data:/data #挂载 Redis数据
+      - /var/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf #挂载 Redis配
+置
+    ports:
+      - 6379:6379 # 端口映射
