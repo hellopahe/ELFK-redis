@@ -1,17 +1,19 @@
 # ELFK_redis
 ### 1 install mysql-redis on docker-compose
 ~~~
-cd ./mysql-redis
+cd ./ELFK-redis/mysql-redis
 docker-compose up -d
 ~~~
 listening port：6379
+*make sure remember the psw and host for a running redis.*
 
 ### 2 docker-compose ELFK
 ~~~
 chmod -R 777 ./ELFK-redis
 ~~~
 ~~~
-# modify args in ./.env & filebeat.Dockerfile to change ELFK version.
+# modify ELFK verison in ./ELFK-redis/.env
+# modify redis host & psw in ./ELFK-redis/.env
 
 docker-compose up -d
 ~~~
