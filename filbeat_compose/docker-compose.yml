@@ -1,0 +1,18 @@
+version: '2.2'
+services:
+  filebeat:
+    image: "docker.elastic.co/beats/filebeat:${ELASTIC_STACK_VERSION}"
+    container_name: filebeat
+    restart: always
+    privileged: true
+    user: root
+    environment:
+      redishost_f: ${redishost}
+      redispsw_f: ${redispsw}
+    volumes:
+      - ${Local_logs_file_path}:/var/log
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+    networks:
+      - esnet
+networks:
+  esnet:

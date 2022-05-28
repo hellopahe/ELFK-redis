@@ -1,0 +1,22 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+
+  paths:
+    - /var/log/sample.log
+    - /var/log/account.log
+    - /var/log/config.log
+    - /var/log/gateway.log
+    - /var/log/investment.log
+    - /var/log/thirdparty.log
+
+  multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+  multiline.negate: true
+  multiline.match: after
+
+output.redis:
+        hosts: ["${redishost_f}:6379"]
+        password: ${redispsw_f}
+        key: javalog
+        db: 0
+        filetype: "list"
