@@ -10,7 +10,7 @@ services:
       redishost_f: ${redishost}
       redispsw_f: ${redispsw}
     volumes:
-      - ./logs:/var/log
+      - ${Local_logs}
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
     networks:
       - esnet
