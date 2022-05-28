@@ -1,31 +1,43 @@
 # ELFK_redis
-### 1 install mysql-redis on docker-compose
+### STEP 1 install mysql-redis on docker-compose
 ~~~
 cd ./ELFK-redis/mysql-redis
 docker-compose up -d
 ~~~
 listening port：6379
 *make sure remember the psw and host for a running redis.*
+*default psw 123456*
 
-### 2 docker-compose ELFK
+### STEP 2 install ELK
 ~~~
-chmod -R 777 ./ELFK-redis
-~~~
-~~~
+# Notes:
 # modify ELFK verison in ./ELFK-redis/.env
 # modify redis host & psw in ./ELFK-redis/.env
 
+cd ./ELFK-redis/
 docker-compose up -d
 ~~~
+### STEP 3 install Filebeat
 ~~~
-# config your filebeat.yml & logstash.conf to make sure they are connected to [redishost:6379]
-vim ./filebeat/filebeat.yml
-vim ./logstash/logstash.conf
+# Notes:
+# modify args in ./filebeat_compose/.env
 
-# change redis pwd for root
-vim ./mysql-redis/docker-compose.yml
+cd filebeat_compose/
+docker-compose up -d
 ~~~
-### 3 *data pipeline: filebeat => redis => logstash => es*
+
+### STEP 4 navigate to ES/Kibana to config
+navigate to ElasticSearch to check indices received from Logstash </br>
+http://yourhost:9200/_cat/indices </br>
+
+navigate to Kibana to setup index and discover data </br>
+http://yourhost:5601/ </br>
+
+
+
+# Some Details on ELFK-redis
+
+### *data pipeline: filebeat => redis => logstash => es*
 ~~~
 docker ps -a
 ~~~
