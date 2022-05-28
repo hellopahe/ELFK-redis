@@ -12,16 +12,6 @@ services:
       - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
     networks:
       - esnet
-  filebeat:
-    container_name: filebeat
-    build:
-      context: .
-      dockerfile: filebeat.Dockerfile
-    volumes:
-      - ./logs:/var/log
-      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-    networks:
-      - esnet
   kibana:
     image: docker.elastic.co/kibana/kibana:${ELASTIC_STACK_VERSION}
     ports:
