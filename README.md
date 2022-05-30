@@ -28,7 +28,7 @@ docker-compose up -d
 
 ### STEP 4 navigate to ES/Kibana to config
 
- *部分metadata字段如"_index", "id"等，无法在logstash前置环节去掉，因此需要到登陆kibana手动设置屏蔽字段，也可直接在kibana设置中直接屏蔽所有多余字段*
+ *部分metadata字段如"_index", "id"等，无法在logstash前置环节去掉，因此需要到登陆kibana手动设置屏蔽字段，也可直接在kibana设置中直接屏蔽所有多余字段* </br>
 1、登陆kibana，左侧导航栏 Stack Management => Advanced Settings </br>
 2、在上方的设置搜索框，搜索 "Meta",  定位到metaFields setting， 将输入框中的所有字段删除。 </br>
 3、保存设置
