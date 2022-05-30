@@ -56,7 +56,7 @@ filebeat.inputs:
 - type: log
   enabled: true
 
-  # 这里主要设置log文件路径，前面已经做了本地logs文件夹到/var/log/的映射，所以这里只需要更改后缀的文件名。
+# 这里主要设置log文件路径，前面已经做了本地logs文件夹到/var/log/的映射，所以这里只需要更改后缀的文件名。
   paths:
 
     - /var/log/sample.log
@@ -66,14 +66,14 @@ filebeat.inputs:
     - /var/log/investment.log
     - /var/log/thirdparty.log
 
-  # filebeat的多行采集，取决于本地日志文件结构，由于日志文件开头都是以yyyy-mm-dd开头，因此将不是这个类型开头的行内容，都加到到前一行（例如stacktrack）
+# filebeat的多行采集，取决于本地日志文件结构，由于日志文件开头都是以yyyy-mm-dd开头，因此将不是这个类型开头的行内容，都加到到前一行（例如stacktrack）
   multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
   multiline.negate: true
   multiline.match: after
 
 
-  # 输出到redis，设置一些redis参数，key为存入redis的键，db为默认数据库编号，
-  # 此处一般无特殊要求。
+# 输出到redis，设置一些redis参数，key为存入redis的键，db为默认数据库编号，
+# 此处一般无特殊要求。
 output.redis:
         hosts: ["${redishost_f}:6379"]
         password: ${redispsw_f}
@@ -88,7 +88,7 @@ output.redis:
 ~~~
 input {
   redis {
-    # 输入部分，这里是从redis中取数据，此处字段需要和filebeat中配置一致。
+# 输入部分，这里是从redis中取数据，此处字段需要和filebeat中配置一致。
 
     host => "172.20.91.116"
     port => 6379
@@ -100,9 +100,9 @@ input {
   }
 }
 filter {
-  # logstash自带的过滤器，这里首先给stacktrack类型日志加上标志字段。然后用grok表达式匹配日志结构，拆分日志信息输出到数据库。
+# logstash自带的过滤器，这里首先给stacktrack类型日志加上标志字段。然后用grok表达式匹配日志结构，拆分日志信息输出到数据库。
 
-  #If log line contains tab character followed by 'at' then we will tag that entry as stacktrace
+#If log line contains tab character followed by 'at' then we will tag that entry as stacktrace
   if [message] =~ "\tat" {
     grok {
       match => ["message", "^(\tat)"]
@@ -110,7 +110,7 @@ filter {
     }
   }
 
-  # log format
+# log format
   grok {
     match => ["message",
               "%{TIMESTAMP_ISO8601:timestamp} \[%{LOGLEVEL:severity} \] %{NOTSPACE:threadName} %{NOTSPACE:service} %{JAVACLASS:class} %{GREEDYDATA:msg}",
@@ -120,7 +120,7 @@ filter {
 
 
 
-  # 加上时间戳字段。
+# 加上时间戳字段。
   date {
     match => [ "timestamp" , "yyyy-MM-dd HH:mm:ss.SSS" ]
   }
@@ -128,7 +128,7 @@ filter {
 }
 
 output {
-  # 把数据输出到数据库。
+# 把数据输出到数据库。
 
   elasticsearch {
     hosts => "elasticsearch:9200"

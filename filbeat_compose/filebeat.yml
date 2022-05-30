@@ -1,8 +1,11 @@
 filebeat.inputs:
+# filebeat输入部分
 - type: log
   enabled: true
 
+# 这里主要设置log文件路径，前面已经做了本地logs文件夹到/var/log/的映射，所以这里只需要更改后缀的文件名。
   paths:
+
     - /var/log/sample.log
     - /var/log/account.log
     - /var/log/config.log
@@ -10,10 +13,14 @@ filebeat.inputs:
     - /var/log/investment.log
     - /var/log/thirdparty.log
 
+# filebeat的多行采集，取决于本地日志文件结构，由于日志文件开头都是以yyyy-mm-dd开头，因此将不是这个类型开头的行内容，都加到到前一行（例如stacktrack）
   multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
   multiline.negate: true
   multiline.match: after
 
+
+# 输出到redis，设置一些redis参数，key为存入redis的键，db为默认数据库编号，
+# 此处一般无特殊要求。
 output.redis:
         hosts: ["${redishost_f}:6379"]
         password: ${redispsw_f}
