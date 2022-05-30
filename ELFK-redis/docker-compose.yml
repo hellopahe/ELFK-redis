@@ -7,6 +7,8 @@ services:
       - 5044:5044
     environment:
       SERVER_NAME: logstash.local
+      redishost_l: ${redishost}
+      redispsw_l: ${redispsw}
     volumes:
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
