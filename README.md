@@ -44,6 +44,15 @@ https://github.com/hellopahe/ELFK-redis/blob/main/sample/kibana_6.png </br>
 *Elastic/Kibana*</br>
 http://yourhost:9200/_cat/indices </br>
 http://yourhost:5601/ </br>
+### feature A 「将Elastic数据持久化」
 
+~~~
+step 1# 在docker-compose中es部分添加参数
+        volumes:
+              - /usr/share/elasticsearch
+step 2# 运行docker
+        docker inspect elasticsearch查看挂载情况
+step 3# 前往本地目录“Source”管理文件
+~~~
 
 
